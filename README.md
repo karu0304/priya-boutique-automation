@@ -96,6 +96,22 @@ Check Conditions
 Send Required Email
         ↓
 Update Google Sheets
+
+## 📸 Workflow Screenshots
+
+### New Order Automation
+
+![New Order Workflow](screenshots/new-order-workflow.png)
+
+### Order Status Automation
+
+![Order Status Workflow](screenshots/order-status-workflow.png)
+
+### Scheduled Monitoring
+
+![Scheduled Monitoring](screenshots/scheduled-monitoring-workflow.png)
+
+## 🔄 Workflows
 🛠️ Technologies Used
 n8n – Workflow automation
 Google Sheets – Order data storage and tracking
