@@ -1,0 +1,325 @@
+{
+  "name": "priya boutique",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA",
+          "mode": "list",
+          "cachedResultName": "priya boutique",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -3168,
+        -1056
+      ],
+      "id": "860c765b-9ee5-4e1d-8b94-5488c011b5ab",
+      "name": "New Trigger order",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "eMrm5zJHou9fpu5S",
+          "name": "Google Sheets Trigger account"
+        }
+      },
+      "notes": "Triggers whenever a new customer order is added to the Google Sheet."
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$json.email}}",
+        "subject": "=Your Priya Boutique Order is Confirmed 🎉",
+        "emailType": "text",
+        "message": "=Hi {{$json[\"customer name\"]}},\n\nThank you for shopping with Priya Boutique.\n\nYour Order ID:\n{{$json.order_id}}\n\nProduct:\n{{$json.product}}\n\nQuantity:\n{{$json.quantity}}\n\nDelivery Address:\n{{$json.delivery}}\n\nYour order has been received successfully.\n\nWe'll notify you once it is shipped.\n\nThank you!\n\nPriya Boutique",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -2592,
+        -896
+      ],
+      "id": "5cc87ac2-5af5-4775-a5f8-0b1edce12bb6",
+      "name": "Customer Confirmation Email",
+      "webhookId": "15a4b3a0-36e9-4710-9074-b00992018294",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "apNzJGjNqL8PcejP",
+          "name": "Gmail account 2"
+        }
+      },
+      "notes": "Sends an order confirmation email to the customer."
+    },
+    {
+      "parameters": {
+        "sendTo": "karunyakamaraj85@gmail.com",
+        "subject": "=🛍️ New Order Received - {{$json.order_id}}",
+        "emailType": "text",
+        "message": "=Hello Priya,\n\nA new order has been placed.\n\nOrder ID:\n{{$json.order_id}}\n\nCustomer:\n{{$json[\"customer name\"]}}\n\nPhone:\n{{$json[\"phone number\"]}}\n\nEmail:\n{{$json.email}}\n\nProduct:\n{{$json.product}}\n\nQuantity:\n{{$json.quantity}}\n\nDelivery Address:\n{{$json.delivery}}\n\nPlease prepare this order.\n\nRegards,\nPriya Boutique Automation",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -2544,
+        -1120
+      ],
+      "id": "01973b6a-62a2-486d-adff-31d5a65169bc",
+      "name": "Admin Notification Email",
+      "webhookId": "fc9f5ef5-1439-46c5-97ee-c045e6a803a6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "apNzJGjNqL8PcejP",
+          "name": "Gmail account 2"
+        }
+      },
+      "notes": "Notifies the boutique owner about a new order."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the const items = $input.all();\n\nitems.forEach((item, index) => {\n  item.json.order_id = `ORD-${String(index + 1).padStart(6, '0')}`;\n});\n\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2976,
+        -1056
+      ],
+      "id": "4f9c74b4-d8b2-4bc5-9254-757aa05c8aa9",
+      "name": "Generate Order ID",
+      "notes": "Generates a unique Order ID and prepares order data."
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA",
+          "mode": "list",
+          "cachedResultName": "priya boutique",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1286608068,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA/edit#gid=1286608068"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Order Id": "={{$json[\"order_id\"]}}",
+            "Order date": "={{ $now.toFormat('yyyy-MM-dd HH:mm:ss') }}",
+            "customer name": "={{$json[\"customer name\"]}}",
+            "phone number": "={{$json[\"phone number\"]}}",
+            "email": "={{$json.email}}",
+            "product": "={{$json[\"product\"]}}",
+            "quantity": "={{$json.quantity}}",
+            "delivery address": "={{$json[\"delivery\"]}}",
+            "order status": "=new",
+            "tracking number": "=not assigned",
+            "payment status": "pending"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Order Id",
+              "displayName": "Order Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Order date",
+              "displayName": "Order date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "customer name",
+              "displayName": "customer name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone number",
+              "displayName": "phone number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "product",
+              "displayName": "product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "quantity",
+              "displayName": "quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "delivery address",
+              "displayName": "delivery address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "order status",
+              "displayName": "order status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "payment status",
+              "displayName": "payment status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tracking number",
+              "displayName": "tracking number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2784,
+        -1056
+      ],
+      "id": "611151de-00b8-4cec-8e29-83159fb0d31d",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oDj6iBZiiQINeBBZ",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "New Trigger order": {
+      "main": [
+        [
+          {
+            "node": "Generate Order ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Confirmation Email": {
+      "main": [
+        []
+      ]
+    },
+    "Generate Order ID": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Admin Notification Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Customer Confirmation Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "14599520-a1a4-4de8-9fd1-5b62c8673e4f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "62e154395e870cca90f8f76ed22e7103747400e9ef14d394ee7b5f60f9550b0e"
+  },
+  "nodeGroups": [],
+  "id": "Yy2rQTNxx1ATl8Ux",
+  "tags": []
+}

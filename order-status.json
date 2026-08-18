@@ -1,0 +1,957 @@
+{
+  "name": "priya boutique 2",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA",
+          "mode": "list",
+          "cachedResultName": "priya boutique",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1286608068,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA/edit#gid=1286608068"
+        },
+        "event": "rowUpdate",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        -192
+      ],
+      "id": "a1a29008-1720-42b6-ab56-21cbe8d9fb49",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "eMrm5zJHou9fpu5S",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7117b053-7442-48ed-903d-c6017b1f0eda",
+              "leftValue": "={{ (($json[\"order status\"] || \"\").trim().toLowerCase() === \"cancelled\") && (($json[\"cancellation email sent\"] || \"\").trim().toLowerCase() !== \"yes\") }}",
+              "rightValue": "=shipped",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -224,
+        -320
+      ],
+      "id": "66ca127e-dbdc-41f2-b3b3-806a17d53524",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$json[\"email\"]}}",
+        "subject": "=Your Priya Boutique Order {{ $json[\"Order Id\"] }} Has Been Shipped 📦",
+        "message": "=<h3>Hi {{$json[\"customer name\"]}},</h3>\n\n<p>Great news! Your order has been shipped. 📦</p>\n\n<p><strong>Order ID:</strong> {{$json[\"Order Id\"]}}<br>\n<strong>Product:</strong> {{$json[\"product\"]}}<br>\n<strong>Quantity:</strong> {{$json[\"quantity\"]}}<br>\n<strong>Tracking Number:</strong> {{$json[\"tracking number\"]}}</p>\n\n<p>Your order is now on its way!</p>\n\n<p>Thank you for shopping with Priya Boutique. 💕</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        32,
+        -336
+      ],
+      "id": "f50af363-bbf4-4776-802b-91758f520821",
+      "name": "Send a message",
+      "webhookId": "65e5a4ea-aeca-44f5-b231-373bc3453608",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "apNzJGjNqL8PcejP",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6d3ff31a-3d5d-4e0a-a57e-3166e8a6c7f4",
+              "leftValue": "={{ (($json[\"order status\"] || \"\").trim().toLowerCase() === \"delivered\") && (($json[\"delivery email sent\"] || \"\").trim().toLowerCase() !== \"yes\") }}",
+              "rightValue": "=delivered",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -80,
+        -128
+      ],
+      "id": "1a976056-0654-49c5-a7f3-f4a207c02735",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$json[\"email\"]}}",
+        "subject": "=Your Priya Boutique Order Has Been Delivered 🎉",
+        "message": "=<h3>Hi {{$json[\"customer name\"]}},</h3>\n\n<p>🎉 Your Priya Boutique order has been delivered!</p>\n\n<p>\n<strong>Order ID:</strong> {{$json[\"Order Id\"]}}<br>\n<strong>Product:</strong> {{$json[\"product\"]}}<br>\n<strong>Quantity:</strong> {{$json[\"quantity\"]}}<br>\n<strong>Tracking Number:</strong> {{$json[\"tracking number\"]}}\n</p>\n\n<p>We hope you love your purchase! 💕</p>\n\n<p>Thank you for shopping with Priya Boutique.</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        192,
+        -112
+      ],
+      "id": "9c80c38a-ac18-45de-a9d3-69d056755f7a",
+      "name": "Send a message1",
+      "webhookId": "ffb7dd37-45a8-4ae1-a41e-610907713db1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "apNzJGjNqL8PcejP",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "77337cfe-5555-480c-82bd-eaf848baccbf",
+              "leftValue": "={{ (($json[\"order status\"] || \"\").trim().toLowerCase() === \"shipped\") && (($json[\"shipping email sent\"] || \"\").trim().toLowerCase() !== \"yes\") }}",
+              "rightValue": "=shipped",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        112,
+        80
+      ],
+      "id": "b6ea5ab7-a195-42ae-8b97-61b9c7c9a336",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$json[\"email\"]}}",
+        "subject": "=Your Priya Boutique Order Has Been Cancelled",
+        "message": "=<h3>Hi {{$json[\"customer name\"]}},</h3>\n\n<p>We’re sorry to inform you that your Priya Boutique order has been cancelled.</p>\n\n<p>\n<strong>Order ID:</strong> {{$json[\"Order Id\"]}}<br>\n<strong>Product:</strong> {{$json[\"product\"]}}<br>\n<strong>Quantity:</strong> {{$json[\"quantity\"]}}\n</p>\n\n<p>If you believe this cancellation was made in error, please contact us.</p>\n\n<p>Thank you,<br>\nPriya Boutique</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        64
+      ],
+      "id": "c6e22155-af6f-46c7-ab31-a518c3ac2c58",
+      "name": "Send a message2",
+      "webhookId": "b4782e8a-03f6-4211-89bb-6581797a632b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "apNzJGjNqL8PcejP",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA",
+          "mode": "list",
+          "cachedResultName": "priya boutique",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1286608068,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA/edit#gid=1286608068"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Order Id": "={{ $(\"If\").item.json[\"Order Id\"] }}",
+            "shipping email sent": "=yes"
+          },
+          "matchingColumns": [
+            "Order Id"
+          ],
+          "schema": [
+            {
+              "id": "Order Id",
+              "displayName": "Order Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Order date",
+              "displayName": "Order date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "customer name",
+              "displayName": "customer name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "phone number",
+              "displayName": "phone number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "product",
+              "displayName": "product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "quantity",
+              "displayName": "quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "delivery address",
+              "displayName": "delivery address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "order status",
+              "displayName": "order status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "payment status",
+              "displayName": "payment status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "tracking number",
+              "displayName": "tracking number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "payment email sent",
+              "displayName": "payment email sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "delivery email sent",
+              "displayName": "delivery email sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "shipping email sent",
+              "displayName": "shipping email sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cancellation email sent",
+              "displayName": "cancellation email sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        304,
+        -288
+      ],
+      "id": "82085ba3-df3e-49c6-ace5-79681aba5cf2",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oDj6iBZiiQINeBBZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA",
+          "mode": "list",
+          "cachedResultName": "priya boutique",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1286608068,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA/edit#gid=1286608068"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Order Id": "={{ $(\"If2\").item.json[\"Order Id\"] }}",
+            "cancellation email sent": "=yes"
+          },
+          "matchingColumns": [
+            "Order Id"
+          ],
+          "schema": [
+            {
+              "id": "Order Id",
+              "displayName": "Order Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Order date",
+              "displayName": "Order date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "customer name",
+              "displayName": "customer name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "phone number",
+              "displayName": "phone number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "product",
+              "displayName": "product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "quantity",
+              "displayName": "quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "delivery address",
+              "displayName": "delivery address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "order status",
+              "displayName": "order status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "payment status",
+              "displayName": "payment status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "tracking number",
+              "displayName": "tracking number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "payment email sent",
+              "displayName": "payment email sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "delivery email sent",
+              "displayName": "delivery email sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "shipping email sent",
+              "displayName": "shipping email sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "cancellation email sent",
+              "displayName": "cancellation email sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        720,
+        64
+      ],
+      "id": "db130741-d7b9-48e1-92c0-204c42cb892a",
+      "name": "Update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oDj6iBZiiQINeBBZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA",
+          "mode": "list",
+          "cachedResultName": "priya boutique",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1286608068,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ij2qWj00fKnm979Pta7Z6ZrA23yP-NPgfMFaiDJ-HxA/edit#gid=1286608068"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Order Id": "={{ $(\"If1\").item.json[\"Order Id\"] }}",
+            "delivery email sent": "=yes"
+          },
+          "matchingColumns": [
+            "Order Id"
+          ],
+          "schema": [
+            {
+              "id": "Order Id",
+              "displayName": "Order Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Order date",
+              "displayName": "Order date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "customer name",
+              "displayName": "customer name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "phone number",
+              "displayName": "phone number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "product",
+              "displayName": "product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "quantity",
+              "displayName": "quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "delivery address",
+              "displayName": "delivery address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "order status",
+              "displayName": "order status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "payment status",
+              "displayName": "payment status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "tracking number",
+              "displayName": "tracking number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "payment email sent",
+              "displayName": "payment email sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "delivery email sent",
+              "displayName": "delivery email sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "shipping email sent",
+              "displayName": "shipping email sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "cancellation email sent",
+              "displayName": "cancellation email sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        -112
+      ],
+      "id": "1d9b2d5f-a09c-4fdd-a65b-4e377139acd0",
+      "name": "Update row in sheet2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oDj6iBZiiQINeBBZ",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message2": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet2": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "627c7118-9856-41ad-9756-a2f3e146b0a3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "62e154395e870cca90f8f76ed22e7103747400e9ef14d394ee7b5f60f9550b0e"
+  },
+  "nodeGroups": [],
+  "id": "dETDNw8gPklNwPRp",
+  "tags": []
+}
