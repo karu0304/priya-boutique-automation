@@ -39,12 +39,6 @@ Notifications         Notifications
                 ▼
           Google Sheets
 
-📸 Workflow Screenshots
-New Order Automation
-
-Order Status Automation
-
-Scheduled Monitoring
 
 🔄 Workflows
 1. New Order Automation
