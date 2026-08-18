@@ -2,7 +2,7 @@
 
 An end-to-end e-commerce order management automation system built with **n8n, Google Sheets, and Gmail**.
 
-The system automates order creation, order-status notifications, payment/delivery follow-ups, and customer/admin communication while maintaining email-sent tracking in Google Sheets.
+The system automates order creation, order-status notifications, payment and delivery follow-ups, customer communication, and admin notifications while maintaining email-sent tracking in Google Sheets.
 
 ## 🚀 Project Overview
 
@@ -28,7 +28,7 @@ Customer / New Order
           ▼               ▼
 ┌─────────────────┐ ┌─────────────────────┐
 │ Order Status    │ │ Scheduled Monitoring│
-│ Workflow        │ │ Workflow             │
+│ Workflow        │ │ Workflow            │
 └────────┬────────┘ └──────────┬──────────┘
          │                     │
          ▼                     ▼
@@ -38,12 +38,13 @@ Customer / New Order
          └──────────┬──────────┘
                     ▼
               Google Sheets
-Workflows
+
+🔄 Workflows
 1. New Order Automation
 
 File: new-order.json
 
-Handles the creation of a new order.
+Handles the creation and initial processing of a new order.
 
 New Order Trigger
         ↓
@@ -67,11 +68,11 @@ Shipped
 Delivered
 Cancelled
 
-The workflow also checks whether the corresponding email has already been sent before sending another notification.
+The workflow checks whether the corresponding notification has already been sent before sending another email.
 
 Google Sheets Trigger
         ↓
-   Check Status
+   Check Order Status
         ↓
  ┌──────┼──────────┐
  ↓      ↓          ↓
@@ -95,12 +96,12 @@ Check Conditions
 Send Required Email
         ↓
 Update Google Sheets
-Technologies Used
+🛠️ Technologies Used
 n8n – Workflow automation
 Google Sheets – Order data storage and tracking
-Gmail – Automated email notifications
+Gmail – Automated customer and admin notifications
 JavaScript Expressions – Conditional workflow logic
-Google Sheets Data
+📊 Google Sheets Data
 
 The order-management sheet contains fields such as:
 
@@ -120,19 +121,20 @@ Delivery email sent
 Shipping email sent
 Cancellation email sent
 
-The email-sent fields help prevent duplicate notifications.
+The email-sent fields are used to prevent duplicate notifications.
 
-Key Features
+✨ Key Features
 Automatic Order ID generation
 Automated order creation and storage
 Customer confirmation emails
 Admin notification emails
 Status-based customer notifications
-Scheduled monitoring
+Scheduled order monitoring
 Duplicate-email prevention
 Automatic Google Sheets updates
+Centralized order tracking
 End-to-end workflow automation
-Example Order Lifecycle
+🔄 Example Order Lifecycle
 New Order
    ↓
 Generate Order ID
@@ -148,3 +150,27 @@ Shipping Notification
 Order Delivered
    ↓
 Delivery Notification
+📁 Repository Structure
+priya-boutique-automation/
+│
+├── README.md
+├── new-order.json
+├── order-status.json
+└── scheduled-monitoring.json
+🔐 Security
+
+The workflow exports in this repository should be configured with environment-specific credentials.
+
+Never commit:
+
+Passwords
+API keys
+OAuth client secrets
+Access tokens
+Private credentials
+
+Credentials should be configured separately in the n8n environment.
+
+🎯 Project Goal
+
+The goal of this project is to demonstrate how workflow automation can streamline e-commerce operations, reduce repetitive manual tasks, improve customer communication, and maintain reliable order tracking with minimal manual intervention.
