@@ -70,7 +70,7 @@
     },
     {
       "parameters": {
-        "sendTo": "karunyakamaraj85@gmail.com",
+        "sendTo": "admin@example.com",
         "subject": "=🛍️ New Order Received - {{$json.order_id}}",
         "emailType": "text",
         "message": "=Hello Priya,\n\nA new order has been placed.\n\nOrder ID:\n{{$json.order_id}}\n\nCustomer:\n{{$json[\"customer name\"]}}\n\nPhone:\n{{$json[\"phone number\"]}}\n\nEmail:\n{{$json.email}}\n\nProduct:\n{{$json.product}}\n\nQuantity:\n{{$json.quantity}}\n\nDelivery Address:\n{{$json.delivery}}\n\nPlease prepare this order.\n\nRegards,\nPriya Boutique Automation",
