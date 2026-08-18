@@ -14,30 +14,30 @@ The workflows work together through **Google Sheets as the central order-managem
 
 ```text
 Customer / New Order
-        │
-        ▼
+    │
+    ▼
 ┌─────────────────────┐
 │ New Order Workflow  │
 └─────────┬───────────┘
-          │
-          ▼
+      │
+      ▼
    Google Sheets
-          │
-          ├───────────────┐
-          │               │
-          ▼               ▼
+      │
+      ├───────────────┐
+      │               │
+      ▼               ▼
 ┌─────────────────┐ ┌─────────────────────┐
 │ Order Status    │ │ Scheduled Monitoring│
 │ Workflow        │ │ Workflow            │
 └────────┬────────┘ └──────────┬──────────┘
-         │                     │
-         ▼                     ▼
-       Gmail                 Gmail
-    Notifications         Notifications
-         │                     │
-         └──────────┬──────────┘
-                    ▼
-              Google Sheets
+     │                     │
+     ▼                     ▼
+   Gmail                 Gmail
+Notifications         Notifications
+     │                     │
+     └──────────┬──────────┘
+                ▼
+          Google Sheets
 
 📸 Workflow Screenshots
 New Order Automation
@@ -54,11 +54,11 @@ File: new-order.json
 Handles the creation and initial processing of a new order.
 
 New Order Trigger
-        ↓
+    ↓
 Generate Order ID
-        ↓
+    ↓
 Append Order to Google Sheets
-        ↓
+    ↓
    ┌────┴────┐
    ↓         ↓
 Admin      Customer
@@ -78,9 +78,9 @@ Cancelled
 The workflow checks whether the corresponding notification has already been sent before sending another email.
 
 Google Sheets Trigger
-        ↓
+    ↓
    Check Order Status
-        ↓
+    ↓
  ┌──────┼──────────┐
  ↓      ↓          ↓
 Shipped Delivered Cancelled
@@ -95,13 +95,13 @@ File: scheduled-monitoring.json
 Runs on a schedule, reads order records from Google Sheets, checks configured conditions, sends required notifications, and updates the corresponding email-sent fields.
 
 Schedule Trigger
-        ↓
+    ↓
 Get Orders from Google Sheets
-        ↓
+    ↓
 Check Conditions
-        ↓
+    ↓
 Send Required Email
-        ↓
+    ↓
 Update Google Sheets
 🛠️ Technologies Used
 n8n – Workflow automation
@@ -164,9 +164,9 @@ priya-boutique-automation/
 ├── order-status.json
 ├── scheduled-monitoring.json
 └── screenshots/
-    ├── new-order-workflow.png
-    ├── order-status-workflow.png
-    └── scheduled-monitoring-workflow.png
+├── new-order-workflow.png
+├── order-status-workflow.png
+└── scheduled-monitoring-workflow.png
 🔐 Security
 
 The workflow exports in this repository should be configured with environment-specific credentials.
